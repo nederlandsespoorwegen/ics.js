@@ -90,7 +90,6 @@ var ics = function() {
                 'DTEND;VALUE=DATE:' + end,
                 'LOCATION:' + location,
                 'SUMMARY;LANGUAGE=en-us:' + subject,
-                'TRANSP:TRANSPARENT',
                 'END:VEVENT'
             ].join(SEPARATOR);
 

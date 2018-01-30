@@ -1,6 +1,6 @@
 {
   "name": "ics.js",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "A browser firendly .ics/.vcs file generator written entirely in javascript",
   "main": "icsjs",
   "dependencies": {

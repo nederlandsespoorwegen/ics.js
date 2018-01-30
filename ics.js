@@ -13,6 +13,7 @@ var ics = function() {
     var calendarEvents = [];
     var calendarStart = [
         'BEGIN:VCALENDAR',
+        'PRODID:-//NS//NONSGML Journeyplanner//NL',
         'VERSION:2.0',
         'BEGIN:VTIMEZONE',
         'TZID:Europe/Amsterdam',
@@ -34,6 +35,17 @@ var ics = function() {
         'END:VTIMEZONE'
     ].join(SEPARATOR);
     var calendarEnd = SEPARATOR + 'END:VCALENDAR';
+
+    function guid() {
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+            s4() + '-' + s4() + s4() + s4();
+    }
+
+    function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+    }
 
     return {
         /**
@@ -89,6 +101,15 @@ var ics = function() {
             var end_minutes = ("00" + (end_date.getMinutes().toString())).slice(-2);
             var end_seconds = ("00" + (end_date.getSeconds().toString())).slice(-2);
 
+            var current_date = new Date();
+            var current_year = ("0000" + (current_date.getFullYear().toString())).slice(-4);
+            var current_month = ("00" + ((current_date.getMonth() + 1).toString())).slice(-2);
+            var current_day = ("00" + ((current_date.getDate()).toString())).slice(-2);
+            var current_hours = ("00" + (current_date.getHours().toString())).slice(-2);
+            var current_minutes = ("00" + (current_date.getMinutes().toString())).slice(-2);
+            var current_seconds = ("00" + (current_date.getSeconds().toString())).slice(-2);
+            var current = current_year + current_month + current_day + 'T' + current_hours + current_minutes + current_seconds;
+
             // Since some calendars don't add 0 second events, we need to remove time if there is none...
             var start_time = '';
             var end_time = '';
@@ -102,8 +123,10 @@ var ics = function() {
 
             var calendarEvent = [
                 'BEGIN:VEVENT',
+                'UID:' + guid() + '@ns.nl',
                 'CLASS:PUBLIC',
                 'DESCRIPTION:' + description,
+                'DTSTAMP;TZID=Europe/Amsterdam:' + current,
                 'DTSTART;TZID=Europe/Amsterdam:' + start,
                 'DTEND;TZID=Europe/Amsterdam:' + end,
                 'LOCATION:' + location,
